@@ -62,6 +62,29 @@ model = nn.Sequential(
 
 print(model)
 
+# Defining the negative log-likelihood for calculating loss
+criterion = nn.NLLLoss()
+
+images, labels = next(iter(training_loader))
+images = images.view(images.shape[0], -1)
+
+# log probabilities 
+logps = model(images)
+
+# Calculate the NLL-Loss
+loss = criterion(logps, labels)
+
+print('Before backward pass: \n', model[0].weight.grad)
+# Calculates the gradients of parameter
+loss.backward()
+print('After backward: \n', model[0].weight.grad)
+print('\n')
+
+'''The following code trains the neural network '''
+# defining the optimiser with stochastic gradient descent and default parameter
+
+optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+
 
 
 
