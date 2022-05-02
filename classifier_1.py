@@ -195,6 +195,27 @@ torch.save(model, 'output/A3_Model.pt')
 print("Done")
 
 
+user_input = ''
+while user_input != 'exit':
+    user_input  = input("Please enter a filepath: ")
+    if user_input != 'exit':
+        ''' Loads up our saved model.'''
+        net = torch.load("output/A3_Model.pt")
+
+        ''' Loads up the image on the path entered by user'''
+        image_ = Image.open(user_input)
+        img_ = TF.to_tensor(image_).unsqueeze(0)
+        img__ = img_.view(img_.shape[0], -1)
+        with torch.no_grad():
+            log_prob = model(img__)
+        pb_ = torch.exp(log_prob_)
+        probab_ = list(pb_.numpy()[0])
+        print("Classifier:", probab_.index(max(probab_)))
+        classify(img__.view(1, 28, 28), pb)
+
+    else:
+        print("Exiting....")
+
 
 
 
