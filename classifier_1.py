@@ -85,6 +85,55 @@ print('\n')
 
 optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
+print('Initial weights - ', model[0].weight)
+print('\n')
+
+images, labels = next(iter(training_loader))
+images.resize_(64, 784)
+
+# Clear the gradients, do this because gradients are accumulated
+optimizer.zero_grad()
+
+# Forward Pass
+output = model(images)
+loss = criterion(output, labels)
+
+# The backward pass and the update weights
+loss.backward()
+print('Gradient - ', model[0].weight.grad)
+
+time_ = time()
+epochs = 15        # Total number of iterations(epochs) for training
+
+running_lost_list = []
+epochs_list = []
+
+for eps in range(epochs):
+    running_loss = 0
+    for images, labels in training_loader:
+        # Flatenning MNIST images with size [64, 784]
+        images = images.view(images.shape[0], -1)
+
+        # Defining gradient in each epoch as 0
+        optimizer.zero_grad()
+
+        # Modeling for each image batch
+        output = model(images)
+
+        # Calculating the loss
+        loss = criterion(output, labels)
+
+        # This is where the model learns by backpropagating
+        loss.backward()
+
+        # And optimizes its weights here
+        optimizer.step()
+
+        # Calculate the loss
+        running_loss += loss.item()
+    else:
+        print("Epoch {} - Training loss: {}". format(eps, running_loss/len(training_loader)))
+print("\nTraining Time (in minutes) = ", (time() - time_)/60)
 
 
 
