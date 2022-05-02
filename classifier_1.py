@@ -107,7 +107,9 @@ epochs = 15        # Total number of iterations(epochs) for training
 
 running_lost_list = []
 epochs_list = []
-
+print("\n")
+print("Now training Model.....")
+print("----------------------------------------------")
 for eps in range(epochs):
     running_loss = 0
     for images, labels in training_loader:
@@ -186,18 +188,20 @@ for images, labels in testloader:
         correct_count += 1
     all_count += 1
 
+print("======================================================")
 print("Number of Images Tested =", all_count)
 print("\nModel Accuracy = ", (correct_count/all_count))
-
+print("======================================================")
 # This line of code saves the model then prints "DONE".
-
+print("Saving model.....")
 torch.save(model, 'output/A3_Model.pt')
 print("Done")
 
-
+print("***************** [USER INTERACTION] *****************")
 user_input = ''
 while user_input != 'exit':
-    user_input  = input("Please enter a filepath: ")
+    print("Please enter a filepath: ")
+    user_input  = input("> ")
     if user_input != 'exit':
         ''' Loads up our saved model.'''
         net = torch.load("output/A3_Model.pt")
@@ -207,7 +211,7 @@ while user_input != 'exit':
         img_ = TF.to_tensor(image_).unsqueeze(0)
         img__ = img_.view(img_.shape[0], -1)
         with torch.no_grad():
-            log_prob = model(img__)
+            log_prob_ = model(img__)
         pb_ = torch.exp(log_prob_)
         probab_ = list(pb_.numpy()[0])
         print("Classifier:", probab_.index(max(probab_)))
