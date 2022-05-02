@@ -168,3 +168,42 @@ pb = torch.exp(log_prob)
 probab = list(pb.numpy()[0])
 print("Predicted Digit =", probab.index(max(probab)))
 classify(img.view(1, 28, 28), pb)
+
+# This part of the code validates the model
+correct_count, all_count = 0, 0
+for images, labels in testloader:
+    for i in range(len(labels)):
+        img = images[i].view(1, 784)
+
+        with torch.no_grad():
+            logps = model(img)
+    
+    ps = torch.exp(logps)
+    probab = list(ps.numpy()[0])
+    pred_label = probab.index(max(probab))
+    true_label = labels.numpy()[i]
+    if (true_label == pred_label):
+        correct_count += 1
+    all_count += 1
+
+print("Number of Images Tested =", all_count)
+print("\nModel Accuracy = ", (correct_count/all_count))
+
+# This line of code saves the model then prints "DONE".
+
+torch.save(model, 'output/A3_Model.pt')
+print("Done")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
