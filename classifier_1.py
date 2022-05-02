@@ -10,3 +10,11 @@ from PIL import Image
 from time import time
 from torchvision import datasets, transforms
 from torch import nn, optim
+
+# Sets makes the sample image sizes to be fixed.
+
+transform = transform.Compose(  [transforms.ToTensor(),
+                                 transforms.Normalize((0.5,), (0.5,)),
+                                ])
+
+
