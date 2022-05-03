@@ -54,7 +54,7 @@ model = nn.Sequential(
                         nn.ReLU(),              # Activation function: Rectified Linear Function
 
                         nn.Linear(128, 64),     # 2nd Layer
-                        nn.Tanh(),              # Activation Function: Hyperbolic Tangent Function
+                        nn.Sigmoid(),           # Activation Function: Sigmoid Function
 
                         nn.Linear(64, 10),      # 3rd Layer
                         nn.LogSoftmax(dim=1)    # Activation Function: Log Softmax
@@ -194,7 +194,7 @@ print("\nModel Accuracy = ", (correct_count/all_count))
 print("======================================================")
 # This line of code saves the model then prints "DONE".
 print("Saving model.....")
-torch.save(model, 'output/A3_Model_1.pt')
+torch.save(model, 'output/A3_Model_3.pt')
 print("Done")
 
 print("***************** [USER INTERACTION] *****************")
@@ -204,7 +204,7 @@ while user_input != 'exit':
     user_input  = input("> ")
     if user_input != 'exit':
         ''' Loads up our saved model.'''
-        net = torch.load("output/A3_Model_1.pt")
+        net = torch.load("output/A3_Model_3.pt")
 
         ''' Loads up the image on the path entered by user'''
         image_ = Image.open(user_input)
@@ -219,16 +219,4 @@ while user_input != 'exit':
 
     else:
         print("Exiting....")
-
-
-
-
-
-
-
-
-
-
-
-
 
